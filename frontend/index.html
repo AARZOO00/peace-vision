@@ -1,0 +1,714 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peace Vision — Find Peace Within</title>
+  <meta name="description" content="A soul-led space for healing, growth, and returning to your most authentic self. Emotional healing, energy alignment, and spiritual wisdom." />
+  <meta property="og:title" content="Peace Vision — Find Peace Within" />
+  <meta property="og:description" content="Soul-led healing space for emotional understanding, energy alignment and spiritual wisdom." />
+  <meta property="og:type" content="website" />
+  <link rel="canonical" href="https://peacevision.com" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@200;300;400;500&family=Cinzel+Decorative:wght@400&display=swap" rel="stylesheet" />
+  
+  
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ═══ CUSTOM CURSOR ═══ -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ═══ SCROLL PROGRESS ═══ -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ═══ COOKIE BANNER ═══ -->
+  <div class="cookie-banner" id="cookieBanner">
+    <span>We use cookies to enhance your healing journey 🍪</span>
+    <div class="cookie-actions">
+      <button class="btn-cookie-decline" onclick="declineCookies()">Decline</button>
+      <button class="btn-cookie-accept" onclick="acceptCookies()">Accept All</button>
+    </div>
+  </div>
+
+  <!-- ═══ FLOATING CTA ═══ -->
+  <a href="#contact" class="floating-cta" id="floatingCta">
+    <span>🕊</span> Book Your Free Call
+  </a>
+
+  <!-- ═══ AI CHAT WIDGET ═══ -->
+  <button class="ai-chat-btn" id="aiChatBtn" onclick="toggleChat()">
+    <div class="pulse-dot"></div>
+    🤖 Soul Guide AI
+  </button>
+
+  <div class="ai-chat-panel" id="aiChatPanel">
+    <div class="chat-header">
+      <div class="chat-avatar">🌿</div>
+      <div class="chat-header-info">
+        <strong>Soul Guide AI</strong>
+        <span>● Online — here to help</span>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg ai">
+        <div class="msg-bubble">Namaste 🙏 I'm your Soul Guide. I'm here to help you find the right healing path. What brings you here today?</div>
+      </div>
+    </div>
+    <div class="chat-quick" id="chatQuick">
+      <button class="quick-btn" onclick="sendQuick('I feel emotionally overwhelmed')">Feeling overwhelmed</button>
+      <button class="quick-btn" onclick="sendQuick('I want to understand energy healing')">Energy healing?</button>
+      <button class="quick-btn" onclick="sendQuick('What services do you offer?')">Your services</button>
+      <button class="quick-btn" onclick="sendQuick('I want to book a session')">Book session</button>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything..." onkeydown="if(event.key==='Enter') sendChat()" />
+      <button class="chat-send" onclick="sendChat()">→</button>
+    </div>
+  </div>
+
+  <!-- ═══ GUIDE POPUP ═══ -->
+  <div class="popup-overlay" id="guidePopup">
+    <div class="popup-card">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <div class="popup-content">
+        <div class="popup-icon">🌿</div>
+        <h3>Free Healing Guide</h3>
+        <p>Get our exclusive <em>'Return to Yourself'</em> guide — 20 pages of soul-care practices</p>
+        <form class="popup-form" onsubmit="submitGuide(event)">
+          <input type="email" placeholder="Your email address" required />
+          <button type="submit" class="btn-primary full-width">Send Me the Guide</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <nav class="nav" id="mainNav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="logo-mark">✦</span>
+        <span class="logo-text">Peace Vision</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#programs">Programs</a></li>
+        <li><a href="#journey">Journey</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <div class="lang-switcher">
+          <button class="lang-btn active" onclick="setLang('EN')">EN</button>
+          <button class="lang-btn" onclick="setLang('HI')">HI</button>
+          <button class="lang-btn" onclick="setLang('ES')">ES</button>
+        </div>
+        <a href="#contact" class="btn-primary">Book a Free Call</a>
+      </div>
+      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <ul>
+        <li><a href="#about" onclick="toggleMenu()">About</a></li>
+        <li><a href="#services" onclick="toggleMenu()">Services</a></li>
+        <li><a href="#programs" onclick="toggleMenu()">Programs</a></li>
+        <li><a href="#journey" onclick="toggleMenu()">Journey</a></li>
+        <li><a href="#testimonials" onclick="toggleMenu()">Testimonials</a></li>
+        <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+      </ul>
+      <a href="#contact" class="btn-primary" onclick="toggleMenu()">Book a Free Call</a>
+    </div>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="orb orb-4"></div>
+      <div class="aurora"></div>
+      <canvas id="particleCanvas"></canvas>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge reveal">✦ Soul-Led Healing Space ✦</div>
+      <h1 class="hero-title reveal delay-1">
+        <span class="line-1">Find Peace</span>
+        <span class="line-2">Within</span>
+      </h1>
+      <p class="hero-sub reveal delay-2">
+        A space created to help you reconnect with yourself, discover the life you have been seeking, and deeply understand the energies shaping your life.
+      </p>
+      <div class="hero-tags reveal delay-3">
+        <span>✦ Empowerment</span>
+        <span>✦ Healing</span>
+        <span>✦ Meditation</span>
+        <span>✦ Guidance</span>
+        <span>✦ Awareness</span>
+      </div>
+      <div class="hero-actions reveal delay-4">
+        <a href="#contact" class="btn-primary">Begin Your Journey →</a>
+        <a href="#services" class="btn-ghost">Explore Services</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-mouse"></div>
+      <span>Scroll to Explore</span>
+    </div>
+  </section>
+
+  <!-- ═══ HEALING GALLERY ═══ -->
+  <section class="healing-gallery" id="gallery">
+    <div class="gallery-bg-orb"></div>
+    <div class="gallery-bg-orb-2"></div>
+
+    <div class="container">
+
+      <h2 class="section-title centered">
+        Healing <em>Gallery</em>
+      </h2>
+     <div class="section-label reveal" style="text-align:center;">SACRED MOMENTS</div>
+      
+      <p class="section-sub reveal">A visual journey through peace, transformation, and the beauty of inner healing</p>
+      <div class="gallery-masonry reveal-scale">
+        <div class="gal-card" onclick="openGallery()" style="--delay:0s"><div class="gal-inner" style="background:linear-gradient(145deg,#0d2b35,#1a4a5c);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(58,184,204,0.4),transparent 70%);top:-30%;left:-20%;width:200%;height:200%;"></div><div class="gal-emoji">🌊</div><div class="gal-content"><span class="gal-tag">Energy Healing</span><h3>Ocean of Calm</h3><p>Surrender to the healing tide within</p></div><div class="gal-hover-btn">View Gallery →</div></div></div>
+        <div class="gal-card" onclick="openGallery()" style="--delay:0.1s"><div class="gal-inner" style="background:linear-gradient(145deg,#1a0a2e,#2d1b4e);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(212,149,106,0.5),transparent 70%);top:-50%;right:-30%;width:180%;height:180%;"></div><div class="gal-emoji">🔮</div><div class="gal-content"><span class="gal-tag">Spiritual</span><h3>Soul Awakening</h3><p>Where light meets shadow</p></div></div></div>
+        <div class="gal-card" onclick="openGallery()" style="--delay:0.2s"><div class="gal-inner" style="background:linear-gradient(145deg,#1a2e0a,#2d4e1b);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(74,222,128,0.4),transparent 70%);bottom:-40%;left:-20%;width:160%;height:160%;"></div><div class="gal-emoji">🌿</div><div class="gal-content"><span class="gal-tag">Nature Healing</span><h3>Earth Medicine</h3><p>Root down, rise up</p></div></div></div>
+        <div class="gal-card" onclick="openGallery()" style="--delay:0.3s"><div class="gal-inner" style="background:linear-gradient(145deg,#2e1a0a,#4e2d1b);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(251,191,36,0.5),transparent 70%);top:-40%;right:-20%;width:180%;height:180%;"></div><div class="gal-emoji">🕯️</div><div class="gal-content"><span class="gal-tag">Inner Light</span><h3>Sacred Fire</h3></div></div></div>
+        <div class="gal-card" onclick="openGallery()" style="--delay:0.4s"><div class="gal-inner" style="background:linear-gradient(145deg,#0a1a2e,#1b2d4e);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);bottom:-30%;left:-10%;width:160%;height:160%;"></div><div class="gal-emoji">🌙</div><div class="gal-content"><span class="gal-tag">Moon Ritual</span><h3>Night Healing</h3></div></div></div>
+        <div class="gal-card" onclick="openGallery()" style="--delay:0.5s"><div class="gal-inner" style="background:linear-gradient(145deg,#2e0a1a,#4e1b2d);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(244,114,182,0.5),transparent 70%);top:-30%;right:-30%;width:200%;height:200%;"></div><div class="gal-emoji">🌸</div><div class="gal-content"><span class="gal-tag">Self Love</span><h3>Blossom</h3></div></div></div>
+        <div class="gal-card" onclick="openGallery()" style="--delay:0.6s"><div class="gal-inner" style="background:linear-gradient(145deg,#0a2e1a,#1b4e2d);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(34,197,94,0.4),transparent 70%);top:-20%;left:-20%;width:170%;height:170%;"></div><div class="gal-emoji">☀️</div><div class="gal-content"><span class="gal-tag">Awakening</span><h3>Golden Hour</h3></div></div></div>
+      </div>
+      <div class="gallery-cta reveal">
+        <button class="gallery-open-btn" onclick="openGallery()"><span>✦</span> Explore Full Gallery</button>
+        <button class="meditation-trigger-btn" onclick="startMeditation()">🧘 Start Meditation Mode</button>
+      </div>
+    </div>
+
+  </section>
+  
+  <!-- ═══ STATS ═══ -->
+  <section class="stats">
+    <div class="stats-grid stagger-children">
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="500">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Clients</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="98">0</span><span class="stat-suffix">%</span>
+        <span class="stat-label">Satisfaction</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="8">0</span><span class="stat-suffix">+</span>
+        <span class="stat-label">Years</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-num" data-target="12">0</span><span class="stat-suffix"></span>
+        <span class="stat-label">Services</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-label reveal">ABOUT US</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <h2 class="section-title reveal-left">What is<br /><em>Peace Vision?</em></h2>
+        
+          <p class="about-desc reveal-left delay-1">
+            A soul-led space where emotional understanding, energy alignment and spiritual wisdom come together to heal, guide, and powerfully help you return to yourself — gently, deeply and powerfully.
+          </p>
+          <p class="about-quote reveal-left delay-2">
+            <em>"We believe healing is not a destination but a returning — to your authentic self, your inner wisdom, and the peace that was always there."</em>
+          </p>
+          <div class="about-badges reveal-left delay-3">
+            <span>✓ Certified Practitioners</span>
+            <span>✓ Evidence-Based</span>
+            <span>✓ Holistic Approach</span>
+          </div>
+          <a href="#contact" class="btn-primary reveal-left delay-4">Learn Our Story →</a>
+        </div>
+        <div class="about-pillars stagger-children">
+          <div class="pillar reveal-right">
+            <div class="pillar-icon">💛</div>
+            <h4>Emotional Understanding</h4>
+            <p>Helps your connection with your core emotions and inner truth</p>
+          </div>
+          <div class="pillar reveal-right">
+            <div class="pillar-icon">🌀</div>
+            <h4>Energy Alignment</h4>
+            <p>Balances your chakras, aura, and energy centers</p>
+          </div>
+          <div class="pillar reveal-right">
+            <div class="pillar-icon">🌙</div>
+            <h4>Spiritual Wisdom</h4>
+            <p>Deepens your spiritual practice and soul connection</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-label reveal">WHAT WE OFFER</div>
+      <h2 class="section-title centered reveal">Healing <em>Services</em></h2>
+      <p class="section-sub reveal">Discover our range of transformative services designed to heal, guide, and empower you</p>
+
+      <div class="services-filter reveal">
+        <button class="filter-btn active" onclick="filterServices('all', event)">All</button>
+        <button class="filter-btn" onclick="filterServices('emotional', event)">Emotional</button>
+        <button class="filter-btn" onclick="filterServices('energy', event)">Energy</button>
+        <button class="filter-btn" onclick="filterServices('spiritual', event)">Spiritual</button>
+        <button class="filter-btn" onclick="filterServices('group', event)">Group</button>
+      </div>
+
+      <div class="services-grid stagger-children" id="servicesGrid">
+        <div class="service-card reveal" data-category="emotional">
+          <div class="service-icon">🌸</div>
+          <div class="service-tag">Emotional</div>
+          <h3>Emotional Healing</h3>
+          <p class="service-sub">Trauma · Inner Child · Shadow Work</p>
+          <p>Deep emotional release work to process and heal past wounds</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card reveal" data-category="energy">
+          <div class="service-icon">⚡</div>
+          <div class="service-tag">Energy</div>
+          <h3>Energy Healing</h3>
+          <p class="service-sub">Reiki · Quantum · Sound Healing</p>
+          <p>Restore natural energy flow and clear energetic blockages</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card reveal" data-category="energy">
+          <div class="service-icon">🌿</div>
+          <div class="service-tag">Holistic</div>
+          <h3>Holistic Remedies</h3>
+          <p class="service-sub">Bach Flowers · Wellness · Balance</p>
+          <p>Natural healing through plant wisdom and holistic practices</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card reveal" data-category="spiritual">
+          <div class="service-icon">🔮</div>
+          <div class="service-tag">Spiritual</div>
+          <h3>Spiritual Guidance</h3>
+          <p class="service-sub">Tarot · Soul Reading · Counselling</p>
+          <p>Connect with your soul's purpose and higher wisdom</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card reveal" data-category="group">
+          <div class="service-icon">🫂</div>
+          <div class="service-tag">Group</div>
+          <h3>Workshops & Groups</h3>
+          <p class="service-sub">Circles · Groups · Transformation</p>
+          <p>Heal in community with guided group healing experiences</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+        <div class="service-card reveal" data-category="emotional">
+          <div class="service-icon">🧘</div>
+          <div class="service-tag">Mindfulness</div>
+          <h3>Meditation & Mindfulness</h3>
+          <p class="service-sub">Breathwork · Visualization · Presence</p>
+          <p>Guided practices to quiet the mind and restore inner calm</p>
+          <a href="#contact" class="service-link">Learn More →</a>
+        </div>
+      </div>
+
+      <div class="services-cta reveal-scale">
+        <div class="cta-card">
+          <div class="cta-check">✓ Breathwork · Meditation · Energy · Mindfulness</div>
+          <h3>Join Peace Vision Circle</h3>
+          <p>Complete healing experience with all practices combined</p>
+          <a href="#programs" class="btn-primary">Book Now →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ AI HEALING QUIZ ═══ -->
+  <section class="ai-quiz" id="quiz">
+    <div class="container">
+      <div class="section-label reveal">AI-POWERED</div>
+      <h2 class="section-title centered reveal">Discover Your <em>Healing Path</em></h2>
+      <p class="section-sub reveal">Answer 4 questions and our AI will recommend the perfect service for your soul's journey</p>
+
+      <div class="quiz-container reveal-scale">
+        <div class="quiz-progress-bar" id="quizProgress" style="width: 0%"></div>
+        <div id="quizContent">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ PROGRAMS ═══ -->
+  <section class="programs" id="programs">
+    <div class="container">
+      <div class="section-label reveal">CHOOSE YOUR PATH</div>
+      <h2 class="section-title centered light reveal">Join Peace Vision <em>Circle</em></h2>
+      <p class="section-sub reveal" style="color:rgba(248,244,239,0.5)">Select the healing journey that resonates with your soul</p>
+
+      <div class="programs-grid">
+        <div class="program-card reveal-left">
+          <div class="program-tier">Guidance Path</div>
+          <p class="program-for">For those beginning their healing journey</p>
+          <div class="program-price">
+            <span class="price-amount">$97</span>
+            <span class="price-period">/ month</span>
+          </div>
+          <ul class="program-features">
+            <li>✦ 2 x 1:1 Sessions per month</li>
+            <li>✦ Weekly group healing circle</li>
+            <li>✦ Personalised healing resources</li>
+            <li>✦ Email support between sessions</li>
+            <li>✦ Meditation library access</li>
+          </ul>
+          <a href="#contact" class="btn-ghost full-width">Start Guidance Path</a>
+        </div>
+
+        <div class="program-card featured reveal-right">
+          <div class="program-badge">MOST POPULAR</div>
+          <div class="program-tier">Healing Path</div>
+          <p class="program-for">For deep transformational healing</p>
+          <div class="program-price">
+            <span class="price-amount">$197</span>
+            <span class="price-period">/ month</span>
+          </div>
+          <ul class="program-features">
+            <li>✦ 4 x 1:1 Sessions per month</li>
+            <li>✦ Daily group healing circle</li>
+            <li>✦ Full energy assessment</li>
+            <li>✦ Emergency support line</li>
+            <li>✦ Custom spiritual roadmap</li>
+            <li>✦ Unlimited resources library</li>
+            <li>✦ Monthly group workshop</li>
+          </ul>
+          <a href="#contact" class="btn-primary full-width">Begin Healing Path</a>
+        </div>
+      </div>
+
+      <div class="guarantee reveal">
+        <span>🛡</span>
+        <p><strong>30-Day Soul Satisfaction Guarantee</strong> — If you don't feel a difference, we'll refund in full</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ JOURNEY ═══ -->
+  <section class="journey" id="journey">
+    <div class="container">
+      <div class="section-label reveal">YOUR PATH TO PEACE</div>
+      <h2 class="section-title centered reveal">How Your Healing Journey <em>Unfolds</em></h2>
+
+      <div class="journey-steps">
+        <div class="journey-step reveal-left">
+          <div class="step-number">01</div>
+          <div class="step-content">
+            <h3>Heart Connection Call</h3>
+            <p>We begin with a soulful one-on-one conversation to understand your emotions, your story, and where you need the most support. This is a safe, judgement-free beginning.</p>
+          </div>
+        </div>
+        <div class="journey-step reveal-right">
+          <div class="step-number">02</div>
+          <div class="step-content">
+            <h3>Inner Reflection</h3>
+            <p>A guided self-reflection journey helps you uncover emotional layers and patterns that are ready to be healed. We use gentle but powerful inner child techniques.</p>
+          </div>
+        </div>
+        <div class="journey-step reveal-left">
+          <div class="step-number">03</div>
+          <div class="step-content">
+            <h3>Energy Cleansing</h3>
+            <p>Experience a gentle cleansing session to release stagnant energy, clear blockages, and feel lighter than you have in years. Your body and soul reset here.</p>
+          </div>
+        </div>
+        <div class="journey-step reveal-right">
+          <div class="step-number">04</div>
+          <div class="step-content">
+            <h3>Personalised Healing Path</h3>
+            <p>A customised spiritual roadmap designed uniquely for your soul's growth — with ongoing support, accountability, and guidance every step of the way.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="journey-stats stagger-children">
+        <div class="stat-item reveal">
+          <span class="stat-num" data-target="500">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Souls Healed</span>
+        </div>
+        <div class="stat-item reveal">
+          <span class="stat-num" data-target="94">0</span><span class="stat-suffix">%</span>
+          <span class="stat-label">Report Transformation</span>
+        </div>
+        <div class="stat-item reveal">
+          <span class="stat-num" data-target="8">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Years of Practice</span>
+        </div>
+        <div class="stat-item reveal">
+          <span class="stat-num" data-target="20">0</span><span class="stat-suffix">+</span>
+          <span class="stat-label">Healing Modalities</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ═══ TESTIMONIALS ═══ -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-label reveal">TRANSFORMATION STORIES</div>
+      <h2 class="section-title centered reveal">What People Are <em>Saying</em></h2>
+
+      <div class="testimonials-slider" id="testimonialsSlider">
+        <div class="testimonials-track" id="testimonialsTrack">
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"Peace Vision changed my entire life. I finally understand myself and feel free from patterns that held me back for years."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">SM</div>
+              <div>
+                <strong>Sarah M.</strong>
+                <span>London, UK · Emotional Healing</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"The energy cleansing session was unlike anything I've ever experienced. I walked out feeling 10 years lighter."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">JK</div>
+              <div>
+                <strong>James K.</strong>
+                <span>New York, USA · Energy Healing</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"After just 3 sessions, I reconnected with a part of myself I thought was gone forever. I am eternally grateful."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">PR</div>
+              <div>
+                <strong>Priya R.</strong>
+                <span>Mumbai, India · Spiritual Guidance</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"The Healing Path program completely transformed my relationship with my emotions and my past."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">ML</div>
+              <div>
+                <strong>Maria L.</strong>
+                <span>Madrid, Spain · Healing Path</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-stars">★★★★★</div>
+            <p>"I came in broken and left feeling whole. Peace Vision is more than a service — it's a lifeline."</p>
+            <div class="testimonial-author">
+              <div class="author-avatar">AF</div>
+              <div>
+                <strong>Ahmed F.</strong>
+                <span>Dubai, UAE · Inner Reflection</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slider-controls">
+        <button class="slider-btn" onclick="prevSlide()">←</button>
+        <div class="slider-dots" id="sliderDots"></div>
+        <button class="slider-btn" onclick="nextSlide()">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq">
+    <div class="container">
+      <div class="section-label reveal">GOT QUESTIONS?</div>
+      <h2 class="section-title centered reveal">Frequently <em>Asked</em></h2>
+
+      <div class="faq-list">
+        <div class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">How do I know which service is right for me? <span class="faq-icon">+</span></button>
+          <div class="faq-a">We offer a free 30-minute Heart Connection Call to understand your needs and guide you to the most aligned service for your healing journey. You can also try our AI quiz above.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">Are your sessions online or in-person? <span class="faq-icon">+</span></button>
+          <div class="faq-a">All sessions are offered online via video call, making healing accessible from anywhere in the world.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">How long does a typical healing journey take? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Every soul is different. Some experience profound shifts in 2–3 sessions, while deeper transformations unfold over 3–6 months. We honour your unique pace.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">Is this a replacement for therapy or medical treatment? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Peace Vision services complement but do not replace professional medical or psychological treatment. We work holistically alongside any existing support you receive.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">What if I don't feel results? <span class="faq-icon">+</span></button>
+          <div class="faq-a">We offer a 30-day Soul Satisfaction Guarantee. If you complete your first month and don't notice any meaningful shift, we will refund your investment in full.</div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q" onclick="toggleFaq(this)">How do I book my first session? <span class="faq-icon">+</span></button>
+          <div class="faq-a">Simply click "Book a Free Call" anywhere on this page, or chat with our Soul Guide AI. We'll meet online for your complimentary Heart Connection Call.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-label reveal">CONTACT US</div>
+      <h2 class="section-title centered reveal">Begin Your <em>Healing Journey</em></h2>
+      <p class="section-sub reveal">Reach out and let's explore how Peace Vision can support you on your path to inner peace and transformation</p>
+
+      <div class="contact-grid">
+        <div class="contact-info reveal-left">
+          <div class="contact-item">
+            <div class="contact-icon">🌐</div>
+            <div><strong>Visit Us</strong><span>peacevision.com</span></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div><strong>Email Us</strong><span>hello@peacevision.com</span></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div><strong>Call Us</strong><span>+1 (555) 123-4567</span></div>
+          </div>
+        </div>
+
+        <form class="contact-form reveal-right" id="contactForm" onsubmit="submitContact(event)">
+          <div class="form-row">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="tel" name="phone" placeholder="Phone Number" />
+          </div>
+          <input type="email" name="email" placeholder="Email Address" required />
+          <select name="service">
+            <option value="">Select Service</option>
+            <option>Emotional Healing</option>
+            <option>Energy Healing</option>
+            <option>Spiritual Guidance</option>
+            <option>Holistic Remedies</option>
+            <option>Workshops</option>
+            <option>Healing Path Program</option>
+            <option>Guidance Path</option>
+            <option>Not Sure Yet</option>
+          </select>
+          <select name="source">
+            <option value="">How did you hear about us?</option>
+            <option>Social Media</option>
+            <option>Friend</option>
+            <option>Google</option>
+            <option>Other</option>
+          </select>
+          <textarea name="message" placeholder="Your Message" rows="4"></textarea>
+          <button type="submit" class="btn-primary">Send Message ✈</button>
+          <div class="form-success" id="formSuccess">✓ Message Sent! We'll be in touch within 24 hours.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GALLERY MODAL ═══ -->
+  <div id="galleryModal" class="gallery-modal">
+
+    <span class="close-gallery" onclick="closeGallery()">✕</span>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+  </div>
+  <div id="meditationMode" class="meditation-mode">
+
+  <button class="exit-meditation" onclick="stopMeditation()">✕</button>
+
+  <div class="breath-container">
+    <div class="breathing-circle"></div>
+    <h2 id="breathText">Inhale...</h2>
+  </div>
+
+  <img id="meditationImage" class="meditation-image"/>
+
+  <canvas id="zenParticles"></canvas>
+
+  <audio id="meditationMusic" loop>
+    <source src="music/healing.mp3" type="audio/mpeg">
+  </audio>
+
+  </div>
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo"><span class="logo-mark">✦</span> Peace Vision</div>
+          <p class="footer-tagline">Heal. Align. Transform.</p>
+          <p>A soul-led space for healing, growth, and returning to your most authentic self.</p>
+        </div>
+        <div class="footer-col">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="#services">Emotional Healing</a></li>
+            <li><a href="#services">Energy Healing</a></li>
+            <li><a href="#services">Spiritual Guidance</a></li>
+            <li><a href="#services">Holistic Remedies</a></li>
+            <li><a href="#services">Workshops</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+            <li><a href="/blog.html">Blog / Journal</a></li>
+            <li><a href="#">Partnerships</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Legal & Contact</h5>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Refund Policy</a></li>
+            <li><a href="mailto:hello@peacevision.com">hello@peacevision.com</a></li>
+            <li><a href="tel:+15551234567">+1 (555) 123-4567</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Peace Vision. All Rights Reserved. Made with ❤️ for healing souls.</p>
+        <div class="footer-legal">
+          <a href="/privacy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/particles.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/forms.js"></script>
+  <script src="js/ai-features.js"></script>
+  <script src="js/main.js"></script>
+
+</div>
+</body>
+</html>

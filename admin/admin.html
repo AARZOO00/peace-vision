@@ -1,0 +1,205 @@
+// ══════════════════════════════
+//   PEACE VISION — Admin JS
+// ══════════════════════════════
+
+const API = '/api';
+
+// ─── DATE ───
+document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+// ─── NAVIGATION ───
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  document.getElementById('view-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.getElementById('pageTitle').textContent = event.currentTarget.textContent.trim();
+
+  // Load data for view
+  if (name === 'overview') loadOverview();
+  if (name === 'contacts') loadContacts('all');
+  if (name === 'bookings') loadBookings('all');
+  if (name === 'subscribers') loadSubscribers();
+}
+
+// ─── FETCH HELPER ───
+async function apiFetch(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('API error ' + res.status);
+    return res.json();
+  } catch (err) {
+    console.error('Fetch error:', url, err.message);
+    return null;
+  }
+}
+
+// ─── OVERVIEW ───
+async function loadOverview() {
+  const [contacts, bookings, subscribers] = await Promise.all([
+    apiFetch(`${API}/contact`),
+    apiFetch(`${API}/bookings`),
+    apiFetch(`${API}/newsletter/count`),
+  ]);
+
+  if (contacts) {
+    document.getElementById('stat-contacts').textContent = contacts.total || 0;
+  }
+  if (bookings) {
+    document.getElementById('stat-bookings').textContent = bookings.total || 0;
+  }
+  if (subscribers) {
+    document.getElementById('stat-subscribers').textContent = subscribers.count || 0;
+  }
+  document.getElementById('stat-active').textContent = '—';
+
+  // Recent contacts table
+  if (contacts?.contacts) {
+    renderContactsTable('recent-contacts-body', contacts.contacts.slice(0, 5));
+  }
+}
+
+// ─── CONTACTS ───
+async function loadContacts(status = 'all', btn) {
+  if (btn) {
+    document.querySelectorAll('#view-contacts .filter-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  document.getElementById('contacts-body').innerHTML = '<div class="loading">Loading...</div>';
+  const url = status === 'all' ? `${API}/contact` : `${API}/contact?status=${status}`;
+  const data = await apiFetch(url);
+
+  if (!data) {
+    document.getElementById('contacts-body').innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>Could not load contacts.</p></div>';
+    return;
+  }
+
+  renderContactsTable('contacts-body', data.contacts);
+}
+
+function renderContactsTable(containerId, contacts) {
+  const container = document.getElementById(containerId);
+  if (!contacts || contacts.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>No contacts found.</p></div>';
+    return;
+  }
+
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Service</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        ${contacts.map(c => `
+          <tr>
+            <td><strong>${escapeHtml(c.name)}</strong></td>
+            <td><a href="mailto:${c.email}" style="color:var(--sage);">${c.email}</a></td>
+            <td>${c.service || '—'}</td>
+            <td><span class="badge badge-${c.status}">${c.status}</span></td>
+            <td>${formatDate(c.createdAt)}</td>
+            <td>
+              <button class="btn-sm" onclick="updateContactStatus('${c._id}', 'contacted')">Mark Contacted</button>
+              <button class="btn-sm" onclick="updateContactStatus('${c._id}', 'converted')">Converted</button>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function updateContactStatus(id, status) {
+  await fetch(`${API}/contact/${id}/status`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status }),
+  });
+  loadContacts();
+}
+
+// ─── BOOKINGS ───
+async function loadBookings(status = 'all', btn) {
+  if (btn) {
+    document.querySelectorAll('#view-bookings .filter-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  document.getElementById('bookings-body').innerHTML = '<div class="loading">Loading...</div>';
+  const url = status === 'all' ? `${API}/bookings` : `${API}/bookings?status=${status}`;
+  const data = await apiFetch(url);
+
+  if (!data?.bookings?.length) {
+    document.getElementById('bookings-body').innerHTML = '<div class="empty-state"><div class="icon">📅</div><p>No bookings found.</p></div>';
+    return;
+  }
+
+  document.getElementById('bookings-body').innerHTML = `
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Service</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        ${data.bookings.map(b => `
+          <tr>
+            <td><strong>${escapeHtml(b.name)}</strong></td>
+            <td>${b.email}</td>
+            <td>${b.service}</td>
+            <td>${b.preferredDate ? formatDate(b.preferredDate) : '—'} ${b.preferredTime || ''}</td>
+            <td><span class="badge badge-${b.status}">${b.status}</span></td>
+            <td>
+              <button class="btn-sm" onclick="confirmBooking('${b._id}')">Confirm</button>
+              <button class="btn-sm danger" onclick="cancelBooking('${b._id}')">Cancel</button>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+async function confirmBooking(id) {
+  const meetLink = prompt('Enter meeting link (optional):') || '';
+  await fetch(`${API}/bookings/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'confirmed', meetLink }),
+  });
+  loadBookings('all');
+}
+
+async function cancelBooking(id) {
+  if (!confirm('Cancel this booking?')) return;
+  await fetch(`${API}/bookings/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: 'cancelled' }),
+  });
+  loadBookings('all');
+}
+
+// ─── SUBSCRIBERS ───
+async function loadSubscribers() {
+  const data = await apiFetch(`${API}/newsletter/count`);
+  if (data) document.getElementById('sub-count').textContent = data.count;
+
+  document.getElementById('subscribers-body').innerHTML = `
+    <div class="empty-state">
+      <div class="icon">💌</div>
+      <p>Subscriber list management coming soon.<br/>Current count: <strong>${data?.count || 0}</strong></p>
+    </div>
+  `;
+}
+
+// ─── HELPERS ───
+function formatDate(date) {
+  return new Date(date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+}
+
+// ─── INIT ───
+loadOverview();

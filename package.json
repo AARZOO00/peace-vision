@@ -1,0 +1,12 @@
+{
+  "name": "peace-vision",
+  "version": "1.0.0",
+  "type": "commonjs",
+  "description": "Peace Vision — Soul-Led Healing Website",
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && npm run dev",
+    "install:all": "cd backend && npm install",
+    "build": "echo 'Frontend is static — no build required'"
+  }
+}

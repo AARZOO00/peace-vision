@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Peace Vision</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root { --midnight:#0a0f1a; --teal:#1a4a5c; --teal-bright:#2a7a8c; --teal-glow:#3ab8cc; --rose-gold:#d4956a; --pearl:#f8f4ef; --mist:#8899aa; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--midnight); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--pearl); text-align: center; padding: 2rem; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.2; }
+    .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(58,184,204,0.5) 0%, transparent 70%); top: -200px; right: -100px; animation: drift 12s ease-in-out infinite; }
+    .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(212,149,106,0.4) 0%, transparent 70%); bottom: -100px; left: -100px; animation: drift 12s ease-in-out infinite reverse; }
+    @keyframes drift { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-20px)} }
+    .content { position: relative; z-index: 1; }
+    .num {
+      font-family: 'Playfair Display', serif; font-size: clamp(8rem, 20vw, 14rem);
+      font-weight: 700; line-height: 1;
+      background: linear-gradient(135deg, rgba(58,184,204,0.3), rgba(212,149,106,0.3));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 1rem; letter-spacing: -0.04em;
+      animation: fadeUp 0.8s ease both;
+    }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 4vw, 2.5rem); font-weight: 400; margin-bottom: 1rem; animation: fadeUp 0.8s ease 0.1s both; }
+    h1 em { font-style: italic; color: var(--rose-gold); }
+    p { font-size: 1rem; color: var(--mist); font-weight: 300; max-width: 400px; line-height: 1.7; margin: 0 auto 2.5rem; animation: fadeUp 0.8s ease 0.2s both; }
+    .links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; animation: fadeUp 0.8s ease 0.3s both; }
+    .btn { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 2rem; border-radius: 50px; text-decoration: none; transition: all 0.3s ease; }
+    .btn-primary { background: linear-gradient(135deg, var(--teal), var(--teal-bright)); color: var(--pearl); box-shadow: 0 4px 20px rgba(26,74,92,0.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(58,184,204,0.4); }
+    .btn-ghost { border: 1.5px solid rgba(212,149,106,0.4); color: var(--rose-gold); }
+    .btn-ghost:hover { background: rgba(212,149,106,0.1); border-color: var(--rose-gold); }
+    .symbol { font-size: 2rem; margin-bottom: 1.5rem; display: block; animation: spin 8s linear infinite; }
+    @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="content">
+    <span class="symbol">✦</span>
+    <div class="num">404</div>
+    <h1>This page has <em>wandered off</em></h1>
+    <p>It seems the page you're looking for has drifted into stillness. Let's guide you back to where healing awaits.</p>
+    <div class="links">
+      <a href="/" class="btn btn-primary">← Return Home</a>
+      <a href="/#contact" class="btn btn-ghost">Book a Free Call</a>
+    </div>
+  </div>
+</body>
+</html>

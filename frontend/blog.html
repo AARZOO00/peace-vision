@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soul Journal — Peace Vision</title>
+  <meta name="description" content="Healing wisdom, spiritual insights, and soul care practices from Peace Vision." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight:#0a0f1a; --deep-teal:#0d2b35; --teal:#1a4a5c; --teal-bright:#2a7a8c;
+      --teal-glow:#3ab8cc; --rose-gold:#d4956a; --rose-light:#e8b89a;
+      --pearl:#f8f4ef; --pearl-dark:#ede8e1; --warm-white:#fdfaf7;
+      --slate:#4a5568; --mist:#8899aa; --charcoal:#1a1f2e;
+      --grad-text: linear-gradient(135deg, #e8b89a, #f5ddd0, #d4956a);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--pearl); color: var(--charcoal); line-height: 1.7; }
+    a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+
+    /* NAV */
+    nav { background: rgba(10,15,26,0.95); backdrop-filter: blur(20px); padding: 1.2rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(58,184,204,0.1); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--pearl); display: flex; align-items: center; gap: 0.5rem; }
+    .nav-logo span { color: var(--rose-gold); }
+    .nav-links-row { display: flex; gap: 2rem; }
+    .nav-links-row a { font-size: 0.8rem; font-weight: 300; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(248,244,239,0.6); }
+    .nav-links-row a:hover { color: var(--pearl); }
+    .btn-nav { background: linear-gradient(135deg, var(--rose-gold), var(--rose-light)); color: var(--charcoal); padding: 0.6rem 1.4rem; border-radius: 50px; font-size: 0.78rem; font-weight: 500; }
+
+    /* HERO */
+    .blog-hero { background: linear-gradient(135deg, #050d15 0%, #0a1f2e 50%, #0d2b35 100%); padding: 6rem 2rem 5rem; text-align: center; position: relative; overflow: hidden; }
+    .blog-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(58,184,204,0.1) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(212,149,106,0.08) 0%, transparent 60%); }
+    .blog-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase; color: var(--teal-glow); margin-bottom: 1rem; display: block; position: relative; }
+    .blog-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); color: var(--pearl); margin-bottom: 1rem; position: relative; }
+    .blog-title em { font-style: italic; font-weight: 400; background: var(--grad-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .blog-sub { font-size: 1rem; color: rgba(248,244,239,0.5); font-weight: 300; max-width: 480px; margin: 0 auto; position: relative; }
+
+    /* FILTER */
+    .blog-filter { display: flex; justify-content: center; gap: 0.6rem; padding: 3rem 2rem 0; flex-wrap: wrap; }
+    .tag-btn { font-size: 0.75rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mist); background: none; border: 1px solid rgba(136,153,170,0.25); padding: 0.45rem 1.3rem; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-family: 'DM Sans', sans-serif; }
+    .tag-btn:hover, .tag-btn.active { background: linear-gradient(135deg, var(--teal), var(--teal-bright)); color: #fff; border-color: transparent; }
+
+    /* GRID */
+    .blog-container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem 6rem; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+    /* FEATURED */
+    .blog-featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--warm-white); border-radius: 20px; overflow: hidden; border: 1px solid var(--pearl-dark); margin-bottom: 1rem; transition: all 0.4s ease; }
+    .blog-featured:hover { box-shadow: 0 20px 60px rgba(10,15,26,0.15); transform: translateY(-4px); }
+    .featured-img { background: linear-gradient(135deg, var(--deep-teal), var(--teal)); display: flex; align-items: center; justify-content: center; min-height: 300px; font-size: 6rem; }
+    .featured-body { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .featured-badge { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal-glow); margin-bottom: 1rem; }
+    .featured-body h2 { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--teal); margin-bottom: 1rem; line-height: 1.3; }
+    .featured-body p { font-size: 0.95rem; color: var(--slate); font-weight: 300; line-height: 1.75; margin-bottom: 1.5rem; }
+    .read-more { font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose-gold); display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.3s ease; }
+    .read-more:hover { gap: 0.7rem; }
+    .post-meta { font-size: 0.75rem; color: var(--mist); font-weight: 300; }
+
+    /* CARD */
+    .blog-card { background: var(--warm-white); border: 1px solid var(--pearl-dark); border-radius: 16px; overflow: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; }
+    .blog-card:hover { box-shadow: 0 12px 40px rgba(10,15,26,0.12); transform: translateY(-5px); border-color: rgba(58,184,204,0.25); }
+    .card-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; }
+    .card-img.teal { background: linear-gradient(135deg, var(--deep-teal), var(--teal)); }
+    .card-img.rose { background: linear-gradient(135deg, #3d1f14, #6b3520); }
+    .card-img.midnight { background: linear-gradient(135deg, var(--midnight), var(--deep-teal)); }
+    .card-img.sage { background: linear-gradient(135deg, #1a2e1a, #2d4228); }
+    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+    .card-tag { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal-glow); margin-bottom: 0.7rem; }
+    .card-body h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--teal); margin-bottom: 0.7rem; line-height: 1.3; }
+    .card-body p { font-size: 0.88rem; color: var(--slate); font-weight: 300; line-height: 1.7; margin-bottom: 1.2rem; flex: 1; }
+    .card-footer { display: flex; justify-content: space-between; align-items: center; }
+
+    /* NEWSLETTER STRIP */
+    .newsletter-strip { background: linear-gradient(135deg, var(--deep-teal), var(--teal)); padding: 4rem 2rem; text-align: center; }
+    .newsletter-strip h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--pearl); margin-bottom: 0.8rem; }
+    .newsletter-strip p { color: rgba(248,244,239,0.6); font-weight: 300; margin-bottom: 2rem; }
+    .nl-form { display: flex; gap: 0.8rem; max-width: 440px; margin: 0 auto; }
+    .nl-form input { flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(58,184,204,0.2); border-radius: 50px; padding: 0.85rem 1.3rem; color: var(--pearl); font-family: 'DM Sans', sans-serif; font-size: 0.9rem; outline: none; }
+    .nl-form input::placeholder { color: rgba(136,153,170,0.5); }
+    .nl-form input:focus { border-color: var(--teal-glow); }
+    .nl-form button { background: linear-gradient(135deg, var(--rose-gold), var(--rose-light)); color: var(--charcoal); border: none; border-radius: 50px; padding: 0.85rem 1.8rem; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.3s ease; white-space: nowrap; }
+    .nl-form button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212,149,106,0.4); }
+
+    /* FOOTER */
+    footer { background: var(--midnight); color: rgba(248,244,239,0.4); text-align: center; padding: 2rem; font-size: 0.82rem; font-weight: 300; }
+    footer a { color: var(--teal-glow); }
+
+    @media (max-width: 900px) {
+      .blog-grid { grid-template-columns: 1fr 1fr; }
+      .blog-featured { grid-template-columns: 1fr; }
+      .featured-img { min-height: 200px; }
+    }
+    @media (max-width: 600px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .nav-links-row { display: none; }
+      .nl-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo"><span>✦</span> Peace Vision</a>
+    <div class="nav-links-row">
+      <a href="/#services">Services</a>
+      <a href="/#programs">Programs</a>
+      <a href="/blog.html" style="color:var(--teal-glow);">Journal</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <a href="/#contact" class="btn-nav">Book Free Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="blog-hero">
+    <span class="blog-label">SOUL JOURNAL</span>
+    <h1 class="blog-title">Wisdom for Your<br /><em>Healing Journey</em></h1>
+    <p class="blog-sub">Insights, practices, and stories to support your path back to yourself</p>
+  </div>
+
+  <!-- FILTER -->
+  <div class="blog-filter">
+    <button class="tag-btn active">All</button>
+    <button class="tag-btn">Emotional</button>
+    <button class="tag-btn">Energy</button>
+    <button class="tag-btn">Spiritual</button>
+    <button class="tag-btn">Mindfulness</button>
+    <button class="tag-btn">Inner Child</button>
+  </div>
+
+  <!-- POSTS -->
+  <div class="blog-container">
+    <div class="blog-grid">
+
+      <!-- FEATURED -->
+      <div class="blog-featured">
+        <div class="featured-img">🌊</div>
+        <div class="featured-body">
+          <div class="featured-badge">✦ Featured · Emotional Healing</div>
+          <h2>The Art of Feeling: Why Suppressing Emotions Keeps You Stuck</h2>
+          <p>Most of us were never taught how to feel our emotions — we were taught to manage, suppress, or perform them. This creates a backlog of unprocessed experience that manifests as anxiety, physical tension, and a nagging sense that something is wrong. The path through is not around.</p>
+          <div style="margin-bottom:1.5rem;">
+            <a href="#" class="read-more">Read Full Article →</a>
+          </div>
+          <span class="post-meta">By Peace Vision Team · 8 min read · January 2025</span>
+        </div>
+      </div>
+
+      <!-- CARDS -->
+      <div class="blog-card">
+        <div class="card-img teal">🌀</div>
+        <div class="card-body">
+          <div class="card-tag">Energy Healing</div>
+          <h3>Understanding Your Chakras: A Beginner's Map</h3>
+          <p>The seven energy centers of the body each govern different aspects of life. When any one is blocked or overactive, we feel it — emotionally, physically, spiritually.</p>
+          <div class="card-footer">
+            <a href="#" class="read-more">Read More →</a>
+            <span class="post-meta">6 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="card-img rose">🧒</div>
+        <div class="card-body">
+          <div class="card-tag">Inner Child</div>
+          <h3>Reparenting Yourself: A Guide to Inner Child Healing</h3>
+          <p>Your inner child holds the memories, needs, and wounds of your early years. Learning to listen to and nurture this part of yourself is one of the most profound acts of self-love.</p>
+          <div class="card-footer">
+            <a href="#" class="read-more">Read More →</a>
+            <span class="post-meta">10 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="card-img midnight">🌙</div>
+        <div class="card-body">
+          <div class="card-tag">Spiritual</div>
+          <h3>Shadow Work: Meeting the Parts You've Hidden</h3>
+          <p>Carl Jung described the shadow as the unconscious part of ourselves we deny or disown. But what we repress doesn't disappear — it shapes our reactions, relationships, and repeated patterns.</p>
+          <div class="card-footer">
+            <a href="#" class="read-more">Read More →</a>
+            <span class="post-meta">12 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="card-img sage">🌿</div>
+        <div class="card-body">
+          <div class="card-tag">Mindfulness</div>
+          <h3>5-Minute Breathwork Practices for Anxiety</h3>
+          <p>Your breath is the fastest path to your nervous system. These five techniques can bring you from overwhelm to calm in minutes — no experience required.</p>
+          <div class="card-footer">
+            <a href="#" class="read-more">Read More →</a>
+            <span class="post-meta">5 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="card-img teal">🎵</div>
+        <div class="card-body">
+          <div class="card-tag">Energy Healing</div>
+          <h3>Sound Healing 101: How Frequency Heals</h3>
+          <p>Sound therapy uses vibration to influence our biology — from slowing brainwaves to reducing cortisol levels. Discover how Tibetan bowls, binaural beats, and tuning forks can support your healing.</p>
+          <div class="card-footer">
+            <a href="#" class="read-more">Read More →</a>
+            <span class="post-meta">7 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="card-img rose">🌸</div>
+        <div class="card-body">
+          <div class="card-tag">Bach Flowers</div>
+          <h3>Bach Flower Remedies: Nature's Emotional Medicine</h3>
+          <p>Dr. Edward Bach believed illness arose from emotional imbalance. His 38 flower remedies, each addressing a specific emotional state, offer a gentle yet powerful path to equilibrium.</p>
+          <div class="card-footer">
+            <a href="#" class="read-more">Read More →</a>
+            <span class="post-meta">9 min</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter-strip">
+    <h3>Get Weekly <em style="font-style:italic;color:var(--rose-light);">Soul Wisdom</em></h3>
+    <p>Healing insights, practices, and stories delivered to your inbox every week</p>
+    <div class="nl-form">
+      <input type="email" placeholder="Your email address" />
+      <button onclick="subscribeNewsletter(this)">Subscribe →</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Peace Vision · <a href="/">peacevision.com</a> · Made with ❤️ for healing souls</p>
+  </footer>
+
+  <script>
+    // Filter tags
+    document.querySelectorAll('.tag-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // In production, this would filter actual posts by category
+      });
+    });
+
+    // Newsletter
+    function subscribeNewsletter(btn) {
+      const input = btn.previousElementSibling;
+      if (!input.value) return;
+      fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: input.value, source: 'blog_page' })
+      }).catch(() => {});
+      btn.textContent = '✓ Subscribed!';
+      btn.style.background = 'linear-gradient(135deg, #27ae60, #2ecc71)';
+      input.value = '';
+    }
+  </script>
+</body>
+</html>

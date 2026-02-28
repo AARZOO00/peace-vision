@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "name": "peace-vision",
+  "builds": [
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "backend/server.js"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "frontend/admin/$1"
+    },
+    {
+      "src": "/(.*\\.(css|js|png|jpg|ico|svg|woff2|webp))",
+      "dest": "frontend/$1"
+    },
+    {
+      "src": "/(.*)\\.html",
+      "dest": "frontend/$1.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "frontend/index.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

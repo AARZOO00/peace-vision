@@ -1,0 +1,14 @@
+{
+  "name": "Peace Vision",
+  "short_name": "PeaceVision",
+  "description": "Soul-led healing space for emotional understanding, energy alignment and spiritual wisdom.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf7f2",
+  "theme_color": "#4a6741",
+  "orientation": "portrait",
+  "icons": [
+    { "src": "images/favicon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "images/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
