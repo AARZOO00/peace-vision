@@ -3,12 +3,12 @@
   "name": "peace-vision",
   "builds": [
     {
-      "src": "frontend/**",
-      "use": "@vercel/static"
-    },
-    {
       "src": "backend/server.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -17,23 +17,48 @@
       "dest": "backend/server.js"
     },
     {
+      "src": "/images/(.*)",
+      "dest": "frontend/images/$1"
+    },
+    {
+      "src": "/music/(.*)",
+      "dest": "frontend/music/$1"
+    },
+    {
+      "src": "/css/(.*)",
+      "dest": "frontend/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "frontend/js/$1"
+    },
+    {
       "src": "/admin/(.*)",
       "dest": "frontend/admin/$1"
     },
     {
-      "src": "/(.*\\.(css|js|png|jpg|ico|svg|woff2|webp))",
+      "src": "/(.*\\.(css|js|png|jpg|jpeg|ico|svg|woff2|webp|mp3|gif))",
       "dest": "frontend/$1"
     },
     {
-      "src": "/(.*)\\.html",
-      "dest": "frontend/$1.html"
+      "src": "/blog.html",
+      "dest": "frontend/blog.html"
+    },
+    {
+      "src": "/privacy.html",
+      "dest": "frontend/privacy.html"
+    },
+    {
+      "src": "/terms.html",
+      "dest": "frontend/terms.html"
+    },
+    {
+      "src": "/success.html",
+      "dest": "frontend/success.html"
     },
     {
       "src": "/(.*)",
       "dest": "frontend/index.html"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
