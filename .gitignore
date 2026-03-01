@@ -1,12 +1,8 @@
-# ══════════════════════════
-#   Peace Vision — .gitignore
-# ══════════════════════════
-
 # Dependencies
 node_modules/
-.npm
+npm-debug.log*
 
-# Environment
+# Environment variables — KABHI PUSH MAT KARO!
 .env
 .env.local
 .env.production
@@ -15,28 +11,15 @@ backend/.env
 # Logs
 logs/
 *.log
-npm-debug.log*
 
-# Build / runtime
-dist/
-build/
-.cache/
-
-# OS
+# OS files
 .DS_Store
 Thumbs.db
 
-# SSL certs (never commit these!)
-ssl/
-*.pem
-*.key
-*.crt
+# Build
+dist/
+build/
 
-# IDE
+# Editor
 .vscode/
 .idea/
-*.swp
-*.swo
-
-# Uploads
-uploads/

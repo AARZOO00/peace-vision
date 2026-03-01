@@ -14,8 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=DM+Sans:wght@200;300;400;500&family=Cinzel+Decorative:wght@400&display=swap" rel="stylesheet" />
-  
-  
+
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -31,8 +30,8 @@
   <div class="cookie-banner" id="cookieBanner">
     <span>We use cookies to enhance your healing journey 🍪</span>
     <div class="cookie-actions">
-      <button class="btn-cookie-decline" onclick="declineCookies()">Decline</button>
-      <button class="btn-cookie-accept" onclick="acceptCookies()">Accept All</button>
+      <button class="btn-cookie-decline" data-action="declineCookies">Decline</button>
+      <button class="btn-cookie-accept" data-action="acceptCookies">Accept All</button>
     </div>
   </div>
 
@@ -42,7 +41,7 @@
   </a>
 
   <!-- ═══ AI CHAT WIDGET ═══ -->
-  <button class="ai-chat-btn" id="aiChatBtn" onclick="toggleChat()">
+  <button class="ai-chat-btn" id="aiChatBtn" data-action="toggleChat">
     <div class="pulse-dot"></div>
     🤖 Soul Guide AI
   </button>
@@ -54,7 +53,7 @@
         <strong>Soul Guide AI</strong>
         <span>● Online — here to help</span>
       </div>
-      <button class="chat-close" onclick="toggleChat()">✕</button>
+      <button class="chat-close" data-action="toggleChat">✕</button>
     </div>
     <div class="chat-messages" id="chatMessages">
       <div class="chat-msg ai">
@@ -62,26 +61,26 @@
       </div>
     </div>
     <div class="chat-quick" id="chatQuick">
-      <button class="quick-btn" onclick="sendQuick('I feel emotionally overwhelmed')">Feeling overwhelmed</button>
-      <button class="quick-btn" onclick="sendQuick('I want to understand energy healing')">Energy healing?</button>
-      <button class="quick-btn" onclick="sendQuick('What services do you offer?')">Your services</button>
-      <button class="quick-btn" onclick="sendQuick('I want to book a session')">Book session</button>
+      <button class="quick-btn" data-action="sendQuick" data-msg="I feel emotionally overwhelmed">Feeling overwhelmed</button>
+      <button class="quick-btn" data-action="sendQuick" data-msg="I want to understand energy healing">Energy healing?</button>
+      <button class="quick-btn" data-action="sendQuick" data-msg="What services do you offer?">Your services</button>
+      <button class="quick-btn" data-action="sendQuick" data-msg="I want to book a session">Book session</button>
     </div>
     <div class="chat-input-row">
-      <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything..." onkeydown="if(event.key==='Enter') sendChat()" />
-      <button class="chat-send" onclick="sendChat()">→</button>
+      <input class="chat-input" id="chatInput" type="text" placeholder="Ask anything..." data-keyenter="sendChat" />
+      <button class="chat-send" data-action="sendChat">→</button>
     </div>
   </div>
 
   <!-- ═══ GUIDE POPUP ═══ -->
   <div class="popup-overlay" id="guidePopup">
     <div class="popup-card">
-      <button class="popup-close" onclick="closePopup()">✕</button>
+      <button class="popup-close" data-action="closePopup">✕</button>
       <div class="popup-content">
         <div class="popup-icon">🌿</div>
         <h3>Free Healing Guide</h3>
         <p>Get our exclusive <em>'Return to Yourself'</em> guide — 20 pages of soul-care practices</p>
-        <form class="popup-form" onsubmit="submitGuide(event)">
+        <form class="popup-form" data-submit="submitGuide">
           <input type="email" placeholder="Your email address" required />
           <button type="submit" class="btn-primary full-width">Send Me the Guide</button>
         </form>
@@ -106,26 +105,26 @@
       </ul>
       <div class="nav-actions">
         <div class="lang-switcher">
-          <button class="lang-btn active" onclick="setLang('EN')">EN</button>
-          <button class="lang-btn" onclick="setLang('HI')">HI</button>
-          <button class="lang-btn" onclick="setLang('ES')">ES</button>
+          <button class="lang-btn active" data-action="setLang" data-lang="EN">EN</button>
+          <button class="lang-btn" data-action="setLang" data-lang="HI">HI</button>
+          <button class="lang-btn" data-action="setLang" data-lang="ES">ES</button>
         </div>
         <a href="#contact" class="btn-primary">Book a Free Call</a>
       </div>
-      <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+      <button class="nav-hamburger" id="hamburger" data-action="toggleMenu">
         <span></span><span></span><span></span>
       </button>
     </div>
     <div class="mobile-menu" id="mobileMenu">
       <ul>
-        <li><a href="#about" onclick="toggleMenu()">About</a></li>
-        <li><a href="#services" onclick="toggleMenu()">Services</a></li>
-        <li><a href="#programs" onclick="toggleMenu()">Programs</a></li>
-        <li><a href="#journey" onclick="toggleMenu()">Journey</a></li>
-        <li><a href="#testimonials" onclick="toggleMenu()">Testimonials</a></li>
-        <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+        <li><a href="#about" data-action="toggleMenu">About</a></li>
+        <li><a href="#services" data-action="toggleMenu">Services</a></li>
+        <li><a href="#programs" data-action="toggleMenu">Programs</a></li>
+        <li><a href="#journey" data-action="toggleMenu">Journey</a></li>
+        <li><a href="#testimonials" data-action="toggleMenu">Testimonials</a></li>
+        <li><a href="#contact" data-action="toggleMenu">Contact</a></li>
       </ul>
-      <a href="#contact" class="btn-primary" onclick="toggleMenu()">Book a Free Call</a>
+      <a href="#contact" class="btn-primary" data-action="toggleMenu">Book a Free Call</a>
     </div>
   </nav>
 
@@ -170,32 +169,51 @@
   <section class="healing-gallery" id="gallery">
     <div class="gallery-bg-orb"></div>
     <div class="gallery-bg-orb-2"></div>
-
     <div class="container">
-
-      <h2 class="section-title centered">
-        Healing <em>Gallery</em>
-      </h2>
-     <div class="section-label reveal" style="text-align:center;">SACRED MOMENTS</div>
-      
+      <div class="section-label reveal" style="text-align:center;">SACRED MOMENTS</div>
+      <h2 class="section-title centered reveal">Healing <em>Gallery</em></h2>
       <p class="section-sub reveal">A visual journey through peace, transformation, and the beauty of inner healing</p>
       <div class="gallery-masonry reveal-scale">
-        <div class="gal-card" onclick="openGallery()" style="--delay:0s"><div class="gal-inner" style="background:linear-gradient(145deg,#0d2b35,#1a4a5c);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(58,184,204,0.4),transparent 70%);top:-30%;left:-20%;width:200%;height:200%;"></div><div class="gal-emoji">🌊</div><div class="gal-content"><span class="gal-tag">Energy Healing</span><h3>Ocean of Calm</h3><p>Surrender to the healing tide within</p></div><div class="gal-hover-btn">View Gallery →</div></div></div>
-        <div class="gal-card" onclick="openGallery()" style="--delay:0.1s"><div class="gal-inner" style="background:linear-gradient(145deg,#1a0a2e,#2d1b4e);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(212,149,106,0.5),transparent 70%);top:-50%;right:-30%;width:180%;height:180%;"></div><div class="gal-emoji">🔮</div><div class="gal-content"><span class="gal-tag">Spiritual</span><h3>Soul Awakening</h3><p>Where light meets shadow</p></div></div></div>
-        <div class="gal-card" onclick="openGallery()" style="--delay:0.2s"><div class="gal-inner" style="background:linear-gradient(145deg,#1a2e0a,#2d4e1b);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(74,222,128,0.4),transparent 70%);bottom:-40%;left:-20%;width:160%;height:160%;"></div><div class="gal-emoji">🌿</div><div class="gal-content"><span class="gal-tag">Nature Healing</span><h3>Earth Medicine</h3><p>Root down, rise up</p></div></div></div>
-        <div class="gal-card" onclick="openGallery()" style="--delay:0.3s"><div class="gal-inner" style="background:linear-gradient(145deg,#2e1a0a,#4e2d1b);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(251,191,36,0.5),transparent 70%);top:-40%;right:-20%;width:180%;height:180%;"></div><div class="gal-emoji">🕯️</div><div class="gal-content"><span class="gal-tag">Inner Light</span><h3>Sacred Fire</h3></div></div></div>
-        <div class="gal-card" onclick="openGallery()" style="--delay:0.4s"><div class="gal-inner" style="background:linear-gradient(145deg,#0a1a2e,#1b2d4e);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);bottom:-30%;left:-10%;width:160%;height:160%;"></div><div class="gal-emoji">🌙</div><div class="gal-content"><span class="gal-tag">Moon Ritual</span><h3>Night Healing</h3></div></div></div>
-        <div class="gal-card" onclick="openGallery()" style="--delay:0.5s"><div class="gal-inner" style="background:linear-gradient(145deg,#2e0a1a,#4e1b2d);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(244,114,182,0.5),transparent 70%);top:-30%;right:-30%;width:200%;height:200%;"></div><div class="gal-emoji">🌸</div><div class="gal-content"><span class="gal-tag">Self Love</span><h3>Blossom</h3></div></div></div>
-        <div class="gal-card" onclick="openGallery()" style="--delay:0.6s"><div class="gal-inner" style="background:linear-gradient(145deg,#0a2e1a,#1b4e2d);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(34,197,94,0.4),transparent 70%);top:-20%;left:-20%;width:170%;height:170%;"></div><div class="gal-emoji">☀️</div><div class="gal-content"><span class="gal-tag">Awakening</span><h3>Golden Hour</h3></div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0s"><div class="gal-inner" style="background:linear-gradient(145deg,#0d2b35,#1a4a5c);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(58,184,204,0.4),transparent 70%);top:-30%;left:-20%;width:200%;height:200%;"></div><div class="gal-emoji">🌊</div><div class="gal-content"><span class="gal-tag">Energy Healing</span><h3>Ocean of Calm</h3><p>Surrender to the healing tide within</p></div><div class="gal-hover-btn">View Gallery →</div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0.1s"><div class="gal-inner" style="background:linear-gradient(145deg,#1a0a2e,#2d1b4e);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(212,149,106,0.5),transparent 70%);top:-50%;right:-30%;width:180%;height:180%;"></div><div class="gal-emoji">🔮</div><div class="gal-content"><span class="gal-tag">Spiritual</span><h3>Soul Awakening</h3><p>Where light meets shadow</p></div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0.2s"><div class="gal-inner" style="background:linear-gradient(145deg,#1a2e0a,#2d4e1b);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(74,222,128,0.4),transparent 70%);bottom:-40%;left:-20%;width:160%;height:160%;"></div><div class="gal-emoji">🌿</div><div class="gal-content"><span class="gal-tag">Nature Healing</span><h3>Earth Medicine</h3><p>Root down, rise up</p></div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0.3s"><div class="gal-inner" style="background:linear-gradient(145deg,#2e1a0a,#4e2d1b);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(251,191,36,0.5),transparent 70%);top:-40%;right:-20%;width:180%;height:180%;"></div><div class="gal-emoji">🕯️</div><div class="gal-content"><span class="gal-tag">Inner Light</span><h3>Sacred Fire</h3></div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0.4s"><div class="gal-inner" style="background:linear-gradient(145deg,#0a1a2e,#1b2d4e);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(139,92,246,0.5),transparent 70%);bottom:-30%;left:-10%;width:160%;height:160%;"></div><div class="gal-emoji">🌙</div><div class="gal-content"><span class="gal-tag">Moon Ritual</span><h3>Night Healing</h3></div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0.5s"><div class="gal-inner" style="background:linear-gradient(145deg,#2e0a1a,#4e1b2d);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(244,114,182,0.5),transparent 70%);top:-30%;right:-30%;width:200%;height:200%;"></div><div class="gal-emoji">🌸</div><div class="gal-content"><span class="gal-tag">Self Love</span><h3>Blossom</h3></div></div></div>
+        <div class="gal-card" data-action="openGallery" style="--delay:0.6s"><div class="gal-inner" style="background:linear-gradient(145deg,#0a2e1a,#1b4e2d);"><div class="gal-orb" style="background:radial-gradient(circle,rgba(34,197,94,0.4),transparent 70%);top:-20%;left:-20%;width:170%;height:170%;"></div><div class="gal-emoji">☀️</div><div class="gal-content"><span class="gal-tag">Awakening</span><h3>Golden Hour</h3></div></div></div>
       </div>
       <div class="gallery-cta reveal">
-        <button class="gallery-open-btn" onclick="openGallery()"><span>✦</span> Explore Full Gallery</button>
-        <button class="meditation-trigger-btn" onclick="startMeditation()">🧘 Start Meditation Mode</button>
+        <button class="gallery-open-btn" data-action="openGallery"><span>✦</span> Explore Full Gallery</button>
+        <button class="meditation-trigger-btn" data-action="startMeditation">🧘 Start Meditation Mode</button>
       </div>
     </div>
-
   </section>
-  
+
+  <!-- ═══ GALLERY MODAL ═══ -->
+  <div id="galleryModal" class="gallery-modal">
+    <span class="close-gallery" data-action="closeGallery">✕</span>
+    <div id="galleryGrid" class="gallery-grid"></div>
+  </div>
+
+  <!-- ═══ LIGHTBOX ═══ -->
+  <div id="lightbox" class="lightbox">
+    <span class="lightbox-close" data-action="closeLightbox">✕</span>
+    <img id="lightboxImg" alt="Healing moment" />
+  </div>
+
+  <!-- ═══ MEDITATION MODE ═══ -->
+  <div id="meditationMode" class="meditation-mode">
+    <button class="exit-meditation" data-action="stopMeditation">✕</button>
+    <div class="breathing-circle"></div>
+    <h2 id="breathText">Inhale...</h2>
+    <img id="meditationImage" class="meditation-image" alt="Meditation" />
+    <canvas id="zenParticles"></canvas>
+    <audio id="meditationMusic" loop>
+      <source src="music/healing.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+
   <!-- ═══ STATS ═══ -->
   <section class="stats">
     <div class="stats-grid stagger-children">
@@ -225,7 +243,6 @@
       <div class="about-grid">
         <div class="about-text">
           <h2 class="section-title reveal-left">What is<br /><em>Peace Vision?</em></h2>
-        
           <p class="about-desc reveal-left delay-1">
             A soul-led space where emotional understanding, energy alignment and spiritual wisdom come together to heal, guide, and powerfully help you return to yourself — gently, deeply and powerfully.
           </p>
@@ -268,11 +285,11 @@
       <p class="section-sub reveal">Discover our range of transformative services designed to heal, guide, and empower you</p>
 
       <div class="services-filter reveal">
-        <button class="filter-btn active" onclick="filterServices('all', event)">All</button>
-        <button class="filter-btn" onclick="filterServices('emotional', event)">Emotional</button>
-        <button class="filter-btn" onclick="filterServices('energy', event)">Energy</button>
-        <button class="filter-btn" onclick="filterServices('spiritual', event)">Spiritual</button>
-        <button class="filter-btn" onclick="filterServices('group', event)">Group</button>
+        <button class="filter-btn active" data-action="filterServices" data-cat="all">All</button>
+        <button class="filter-btn" data-action="filterServices" data-cat="emotional">Emotional</button>
+        <button class="filter-btn" data-action="filterServices" data-cat="energy">Energy</button>
+        <button class="filter-btn" data-action="filterServices" data-cat="spiritual">Spiritual</button>
+        <button class="filter-btn" data-action="filterServices" data-cat="group">Group</button>
       </div>
 
       <div class="services-grid stagger-children" id="servicesGrid">
@@ -463,7 +480,7 @@
       </div>
     </div>
   </section>
-  
+
   <!-- ═══ TESTIMONIALS ═══ -->
   <section class="testimonials" id="testimonials">
     <div class="container">
@@ -530,9 +547,9 @@
         </div>
       </div>
       <div class="slider-controls">
-        <button class="slider-btn" onclick="prevSlide()">←</button>
+        <button class="slider-btn" data-action="prevSlide">←</button>
         <div class="slider-dots" id="sliderDots"></div>
-        <button class="slider-btn" onclick="nextSlide()">→</button>
+        <button class="slider-btn" data-action="nextSlide">→</button>
       </div>
     </div>
   </section>
@@ -545,27 +562,27 @@
 
       <div class="faq-list">
         <div class="faq-item reveal">
-          <button class="faq-q" onclick="toggleFaq(this)">How do I know which service is right for me? <span class="faq-icon">+</span></button>
+          <button class="faq-q" data-action="toggleFaq">How do I know which service is right for me? <span class="faq-icon">+</span></button>
           <div class="faq-a">We offer a free 30-minute Heart Connection Call to understand your needs and guide you to the most aligned service for your healing journey. You can also try our AI quiz above.</div>
         </div>
         <div class="faq-item reveal">
-          <button class="faq-q" onclick="toggleFaq(this)">Are your sessions online or in-person? <span class="faq-icon">+</span></button>
+          <button class="faq-q" data-action="toggleFaq">Are your sessions online or in-person? <span class="faq-icon">+</span></button>
           <div class="faq-a">All sessions are offered online via video call, making healing accessible from anywhere in the world.</div>
         </div>
         <div class="faq-item reveal">
-          <button class="faq-q" onclick="toggleFaq(this)">How long does a typical healing journey take? <span class="faq-icon">+</span></button>
+          <button class="faq-q" data-action="toggleFaq">How long does a typical healing journey take? <span class="faq-icon">+</span></button>
           <div class="faq-a">Every soul is different. Some experience profound shifts in 2–3 sessions, while deeper transformations unfold over 3–6 months. We honour your unique pace.</div>
         </div>
         <div class="faq-item reveal">
-          <button class="faq-q" onclick="toggleFaq(this)">Is this a replacement for therapy or medical treatment? <span class="faq-icon">+</span></button>
+          <button class="faq-q" data-action="toggleFaq">Is this a replacement for therapy or medical treatment? <span class="faq-icon">+</span></button>
           <div class="faq-a">Peace Vision services complement but do not replace professional medical or psychological treatment. We work holistically alongside any existing support you receive.</div>
         </div>
         <div class="faq-item reveal">
-          <button class="faq-q" onclick="toggleFaq(this)">What if I don't feel results? <span class="faq-icon">+</span></button>
+          <button class="faq-q" data-action="toggleFaq">What if I don't feel results? <span class="faq-icon">+</span></button>
           <div class="faq-a">We offer a 30-day Soul Satisfaction Guarantee. If you complete your first month and don't notice any meaningful shift, we will refund your investment in full.</div>
         </div>
         <div class="faq-item reveal">
-          <button class="faq-q" onclick="toggleFaq(this)">How do I book my first session? <span class="faq-icon">+</span></button>
+          <button class="faq-q" data-action="toggleFaq">How do I book my first session? <span class="faq-icon">+</span></button>
           <div class="faq-a">Simply click "Book a Free Call" anywhere on this page, or chat with our Soul Guide AI. We'll meet online for your complimentary Heart Connection Call.</div>
         </div>
       </div>
@@ -595,7 +612,7 @@
           </div>
         </div>
 
-        <form class="contact-form reveal-right" id="contactForm" onsubmit="submitContact(event)">
+        <form class="contact-form reveal-right" id="contactForm" data-submit="submitContact">
           <div class="form-row">
             <input type="text" name="name" placeholder="Your Name" required />
             <input type="tel" name="phone" placeholder="Phone Number" />
@@ -627,32 +644,6 @@
     </div>
   </section>
 
-  <!-- ═══ GALLERY MODAL ═══ -->
-  <div id="galleryModal" class="gallery-modal">
-
-    <span class="close-gallery" onclick="closeGallery()">✕</span>
-
-    <div class="gallery-grid" id="galleryGrid"></div>
-
-  </div>
-  <div id="meditationMode" class="meditation-mode">
-
-  <button class="exit-meditation" onclick="stopMeditation()">✕</button>
-
-  <div class="breath-container">
-    <div class="breathing-circle"></div>
-    <h2 id="breathText">Inhale...</h2>
-  </div>
-
-  <img id="meditationImage" class="meditation-image"/>
-
-  <canvas id="zenParticles"></canvas>
-
-  <audio id="meditationMusic" loop>
-    <source src="music/healing.mp3" type="audio/mpeg">
-  </audio>
-
-  </div>
   <!-- ═══ FOOTER ═══ -->
   <footer class="footer">
     <div class="container">
@@ -708,7 +699,5 @@
   <script src="js/forms.js"></script>
   <script src="js/ai-features.js"></script>
   <script src="js/main.js"></script>
-
-</div>
 </body>
 </html>

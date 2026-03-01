@@ -1,3 +1,50 @@
+// ════════════════════════════════════════
+//   EVENT DELEGATION — CSP Safe
+// ════════════════════════════════════════
+document.addEventListener('click', function(e) {
+  const el = e.target.closest('[data-action]');
+  if (!el) return;
+  const action = el.dataset.action;
+  e.preventDefault();
+
+  switch(action) {
+    case 'openGallery':    openGallery(); break;
+    case 'closeGallery':   closeGallery(); break;
+    case 'startMeditation': startMeditation(); break;
+    case 'stopMeditation': stopMeditation(); break;
+    case 'closeLightbox':  closeLightbox(); break;
+    case 'toggleChat':     toggleChat(); break;
+    case 'sendChat':       sendChat(); break;
+    case 'toggleMenu':     toggleMenu(); break;
+    case 'declineCookies': declineCookies(); break;
+    case 'acceptCookies':  acceptCookies(); break;
+    case 'closePopup':     closePopup(); break;
+    case 'toggleFaq':      toggleFaq(el); break;
+    case 'prevSlide':      prevSlide(); break;
+    case 'nextSlide':      nextSlide(); break;
+    case 'filterServices': filterServices(el.dataset.cat, e); break;
+    case 'setLang':        setLang(el.dataset.lang); break;
+    case 'sendQuick':      sendQuick(el.dataset.msg); break;
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  const el = e.target.closest('[data-keyenter]');
+  if (el && e.key === 'Enter') {
+    const fn = el.dataset.keyenter;
+    if (fn === 'sendChat') sendChat();
+  }
+});
+
+document.addEventListener('submit', function(e) {
+  const el = e.target.closest('[data-submit]');
+  if (!el) return;
+  e.preventDefault();
+  const fn = el.dataset.submit;
+  if (fn === 'submitContact') submitContact(e);
+  if (fn === 'submitGuide') submitGuide(e);
+});
+
 // ════════════════════════
 //   PEACE VISION — Main
 // ════════════════════════
@@ -110,11 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ════════════════════════
-//   GALLERY
-// ════════════════════════
-
-// Fallback images agar backend se nahi aaye
+// ─── GALLERY ───
+// Fallback gallery images if local not found
 const FALLBACK_IMAGES = [
   { url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80', title: 'Mountain Serenity', category: 'Nature' },
   { url: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=800&q=80', title: 'Inner Peace', category: 'Meditation' },
@@ -131,57 +175,40 @@ const FALLBACK_IMAGES = [
 ];
 
 let GALLERY_IMAGES = FALLBACK_IMAGES;
-let MEDITATION_IMAGES = FALLBACK_IMAGES.slice(0, 5).map(i => i.url);
+let MEDITATION_IMAGES = FALLBACK_IMAGES.slice(0,5).map(i => i.url);
 
-// ✅ FIXED: Sirf 1 request — no bulk 400+ image checking
-async function loadLocalImages() {
-  try {
-    const res = await fetch('/api/images');
-    if (!res.ok) return [];
-    const data = await res.json();
-    if (data.images && data.images.length > 0) {
-      return data.images;
-    }
-  } catch (e) {}
-  return [];
-}
 
-// Pre-load images on page load — only 1 API call
-(async function preloadImages() {
-  try {
-    const localImgs = await loadLocalImages();
-    if (localImgs.length > 0) {
-      const cats = ['Nature', 'Spiritual', 'Energy', 'Peace', 'Healing', 'Meditation'];
-      GALLERY_IMAGES = localImgs.map((url, i) => ({
-        url,
-        title: 'Healing Moment ' + (i + 1),
-        category: cats[i % cats.length]
-      }));
-      MEDITATION_IMAGES = localImgs.slice(0, 10);
-      console.log('✅ Loaded ' + localImgs.length + ' local images');
-    } else {
-      console.log('Using fallback images');
-    }
-  } catch (e) {
-    console.log('Using fallback images');
-  }
-})();
 
 async function openGallery() {
   const modal = document.getElementById('galleryModal');
   const grid = document.getElementById('galleryGrid');
   if (!modal || !grid) return;
 
+  // Show modal with loading state
   modal.style.display = 'block';
   document.body.style.overflow = 'hidden';
   setTimeout(() => modal.classList.add('open'), 10);
   grid.innerHTML = '<div style="text-align:center;color:rgba(255,255,255,0.4);padding:4rem;font-family:var(--font-body);font-size:0.9rem;grid-column:1/-1;">✨ Loading your healing gallery...</div>';
 
-  // Use already-loaded images — no extra request needed
-  const images = GALLERY_IMAGES;
+  // Fetch images from backend
+  let images = GALLERY_IMAGES;
+  try {
+    const res = await fetch('/api/images');
+    const data = await res.json();
+    if (data.images && data.images.length > 0) {
+      const cats = ['Nature','Spiritual','Energy','Peace','Healing','Meditation','Grounding','Clarity'];
+      images = data.images.map((url, i) => ({
+        url,
+        title: 'Healing Moment ' + (i + 1),
+        category: cats[i % cats.length]
+      }));
+      // Update meditation images too
+      MEDITATION_IMAGES = data.images.slice(0, 10);
+    }
+  } catch(e) { /* use fallback */ }
 
   grid.innerHTML = images.map((img, i) => `
-    <div class="gallery-img-wrap" onclick="openLightbox('${img.url}', '${img.title}')" style="animation-delay:${i * 0.04}s">
+    <div class="gallery-img-wrap" onclick="openLightbox('${img.url}', '${img.title}')" style="animation-delay:${i*0.04}s">
       <img src="${img.url}" alt="${img.title}" loading="lazy" />
       <div class="gallery-img-overlay">
         <span class="gallery-img-tag">${img.category}</span>
@@ -218,7 +245,7 @@ function closeLightbox() {
 }
 window.closeLightbox = closeLightbox;
 
-// Close on background click or Escape
+// Close lightbox on background click
 document.addEventListener('click', (e) => {
   const lb = document.getElementById('lightbox');
   if (lb && e.target === lb) closeLightbox();
@@ -229,10 +256,7 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { closeLightbox(); closeGallery(); stopMeditation(); }
 });
 
-// ════════════════════════
-//   MEDITATION MODE
-// ════════════════════════
-
+// ─── MEDITATION MODE ───
 let meditationInterval = null;
 let meditationImgIndex = 0;
 
@@ -242,11 +266,14 @@ function startMeditation() {
   mode.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 
+  // Set first image
   const imgEl = document.getElementById('meditationImage');
   if (imgEl) { imgEl.src = MEDITATION_IMAGES[0]; imgEl.style.opacity = '0.4'; }
 
+  // Breath cycle
   const breathText = document.getElementById('breathText');
   const breathCycle = ['Inhale...', 'Hold...', 'Exhale...', 'Rest...'];
+  const breathDurations = [4000, 2000, 4000, 2000];
   let breathIdx = 0;
 
   function nextBreath() {
@@ -255,6 +282,7 @@ function startMeditation() {
   }
   nextBreath();
 
+  // Image slideshow
   function nextImage() {
     meditationImgIndex = (meditationImgIndex + 1) % MEDITATION_IMAGES.length;
     if (imgEl) {
@@ -271,6 +299,7 @@ function startMeditation() {
     if (meditationImgIndex % 2 === 0) nextImage();
   }, 3000);
 
+  // Music
   const music = document.getElementById('meditationMusic');
   if (music) { music.volume = 0.3; music.play().catch(() => {}); }
 }
@@ -287,10 +316,7 @@ function stopMeditation() {
 }
 window.stopMeditation = stopMeditation;
 
-// ════════════════════════
-//   POPUP
-// ════════════════════════
-
+// Popup
 function closePopup() {
   document.getElementById('guidePopup')?.classList.remove('active');
 }
