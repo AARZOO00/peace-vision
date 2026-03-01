@@ -5,7 +5,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
-const User = require('../models/user');
+const User = require('../models/User');
 const { sendClientReply, newsletterWelcomeEmail } = require('../config/email');
 const { auth, adminOnly } = require('../middleware/auth');
 
