@@ -2,7 +2,7 @@
 //   PEACE VISION — Express Server
 // ══════════════════════════════════
 
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -102,21 +102,49 @@ app.listen(PORT, () => {
 module.exports = app;
 
 
-// ─── Soul Guide AI Chat Proxy ───
+// ─── Soul Guide AI Chat Proxy (Groq - Free) ───
 app.post('/api/chat', async (req, res) => {
   try {
     const { messages, system } = req.body;
-    const Anthropic = require('@anthropic-ai/sdk');
-    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    
+    // Hardcoded fallback for testing - remove after .env works
+    const groqKey = process.env.GROQ_API_KEY;
+    console.log('Groq key:', groqKey ? groqKey.substring(0,10) + '...' : 'MISSING ❌');
+    
+    if (!groqKey) {
+      return res.status(500).json({ error: 'GROQ_API_KEY not set in .env' });
+    }
 
-    const response = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 300,
-      system: system || '',
-      messages: messages || []
+    // Convert messages for Groq (OpenAI format)
+    const groqMessages = [];
+    if (system) groqMessages.push({ role: 'system', content: system });
+    (messages || []).filter(m => m.role && m.content).forEach(m => groqMessages.push(m));
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${groqKey}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 300,
+        temperature: 0.7,
+        messages: groqMessages
+      })
     });
 
-    res.json({ content: response.content });
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('Groq error:', data);
+      return res.status(500).json({ error: data.error?.message || 'AI error' });
+    }
+
+    // Convert Groq response to Anthropic format (frontend expects it)
+    const text = data.choices?.[0]?.message?.content || "I'm here with you. 🙏 How can I support you today?";
+    res.json({ content: [{ type: 'text', text }] });
+
   } catch (err) {
     console.error('AI Chat error:', err.message);
     res.status(500).json({ error: err.message });

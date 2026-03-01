@@ -10,13 +10,14 @@ const morgan = require('morgan');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
+const Groq = require('groq-sdk');
 
-const connectDB = require('./config/database');
-const authRoutes = require('./routes/auth');
-const contactRoutes = require('./routes/contact');
-const newsletterRoutes = require('./routes/newsletter');
-const paymentRoutes = require('./routes/payments');
-const bookingRoutes = require('./routes/bookings');
+const connectDB = require('../config/database');
+const authRoutes = require('./auth');
+const contactRoutes = require('./contact');
+const newsletterRoutes = require('./newsletter');
+const paymentRoutes = require('./payments');
+const bookingRoutes = require('./bookings');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -100,6 +101,43 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
+
+// ─── Soul Guide AI Chat Proxy (Groq - Free) ───
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { messages, system } = req.body;
+
+    if (!process.env.GROQ_API_KEY) {
+      console.error('GROQ_API_KEY is not set');
+      return res.status(500).json({ error: 'AI service not configured' });
+    }
+
+    const groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
+
+    // Convert messages for Groq (OpenAI format)
+    const groqMessages = [];
+    if (system) groqMessages.push({ role: 'system', content: system });
+    (messages || []).filter(m => m.role && m.content).forEach(m => groqMessages.push(m));
+
+    const chatCompletion = await groq.chat.completions.create({
+      model: 'llama-3.3-70b-versatile',
+      messages: groqMessages,
+      max_tokens: 300,
+      temperature: 0.7,
+    });
+
+    // Convert Groq response to Anthropic format (frontend expects it)
+    const text = chatCompletion.choices?.[0]?.message?.content || "I'm here with you. 🙏 How can I support you today?";
+    res.json({ content: [{ type: 'text', text }] });
+
+  } catch (err) {
+    console.error('AI Chat error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // ─── Images API ───
 const fs = require('fs');
